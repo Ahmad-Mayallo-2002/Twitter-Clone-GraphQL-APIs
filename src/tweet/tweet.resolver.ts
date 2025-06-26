@@ -40,7 +40,7 @@ export class TweetResolver {
     return this.tweetService.update(tweetId, input, userId);
   }
 
-  @Mutation(() => Tweet, { name: 'deleteTweet' })
+  @Mutation(() => Boolean, { name: 'deleteTweet' })
   removeTweet(
     @Args('id', { type: () => Int }) id: number,
     @Args('userId', { type: () => Int }) userId: number,

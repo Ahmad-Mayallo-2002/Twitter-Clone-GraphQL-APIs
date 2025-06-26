@@ -33,7 +33,7 @@ export class ReplyResolver {
     return await this.replyService.getTweetReplies(tweetId);
   }
 
-  @Mutation(() => Reply, { name: 'deleteReply' })
+  @Mutation(() => Boolean, { name: 'deleteReply' })
   async deleteReply(
     @Args('replyId', { type: () => Int }) replyId: number,
     @Args('userId', { type: () => Int }) userId: number,
@@ -41,7 +41,7 @@ export class ReplyResolver {
     return await this.replyService.deleteReply(replyId, userId);
   }
 
-  @Mutation(() => Reply, { name: 'updateReply' })
+  @Mutation(() => Boolean, { name: 'updateReply' })
   async updateReply(
     @Args('input') input: UpdateReplyInput,
     @Args('replyId', { type: () => Int }) replyId: number,

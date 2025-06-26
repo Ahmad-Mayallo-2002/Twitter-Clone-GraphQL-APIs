@@ -76,7 +76,7 @@ export class TweetService {
       user,
     });
     if (!updatedTweet) return new NotFoundException('Tweet is not Found!');
-    return updatedTweet;
+    return { ...updatedTweet };
   }
 
   async remove(id: number, userId: number) {
@@ -88,7 +88,8 @@ export class TweetService {
       relations: ['user'],
     });
     if (!tweet) return new NotFoundException('Tweet is not Found!');
-    return await this.tweetRepo.delete({ id });
+    await this.tweetRepo.delete(id);
+    return true;
   }
 
   async getUsetTweets(userId: number) {

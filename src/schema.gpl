@@ -27,14 +27,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Dislike {
-  created_at: DateTime!
-  id: Int!
-  tweet: Tweet!
-  updated_at: DateTime!
-  user: User!
-}
-
 type Like {
   created_at: DateTime!
   id: Int!
@@ -44,15 +36,15 @@ type Like {
 }
 
 type Mutation {
-  addDislike(tweetId: Int!, userId: Int!): Dislike!
-  addLike(tweetId: Int!, userId: Int!): Like!
+  addDislike(tweetId: Int!, userId: Int!): Boolean!
+  addLike(tweetId: Int!, userId: Int!): Boolean!
   createReply(input: CreateReplyInput!, tweetId: Int!, userId: Int!): Reply!
   createTweet(input: CreateTweetInput!, userId: Int!): Tweet!
-  deleteReply(replyId: Int!, userId: Int!): Reply!
-  deleteTweet(id: Int!, userId: Int!): Tweet!
-  deleteUser(id: Int!): User!
+  deleteReply(replyId: Int!, userId: Int!): Boolean!
+  deleteTweet(id: Int!, userId: Int!): Boolean!
+  deleteUser(id: Int!): Boolean!
   signUp(input: CreateUserInput!): User!
-  updateReply(input: UpdateReplyInput!, replyId: Int!, userId: Int!): Reply!
+  updateReply(input: UpdateReplyInput!, replyId: Int!, userId: Int!): Boolean!
   updateTweet(input: UpdateTweetInput!, tweetId: Int!, userId: Int!): Tweet!
   updateUser(input: UpdateUserInput!, userId: Int!): User!
 }

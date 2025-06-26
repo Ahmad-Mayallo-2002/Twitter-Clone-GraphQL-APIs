@@ -1,7 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { LikeAndDislikeService } from './like-and-dislike.service';
-import { Like } from './enitites/like.entity';
-import { Dislike } from './enitites/dislike.entity';
 
 @Resolver()
 export class LikeAndDislikeResolver {
@@ -21,7 +19,7 @@ export class LikeAndDislikeResolver {
     return await this.likeAndDislikeService.getDislikeTweetCount(tweetId);
   }
 
-  @Mutation(() => Like, { name: 'addLike' })
+  @Mutation(() => Boolean, { name: 'addLike' })
   async addLike(
     @Args('tweetId', { type: () => Int }) tweetId: number,
     @Args('userId', { type: () => Int }) userId: number,
@@ -29,7 +27,7 @@ export class LikeAndDislikeResolver {
     return await this.likeAndDislikeService.addLike(userId, tweetId);
   }
 
-  @Mutation(() => Dislike, { name: 'addDislike' })
+  @Mutation(() => Boolean, { name: 'addDislike' })
   async addDislike(
     @Args('tweetId', { type: () => Int }) tweetId: number,
     @Args('userId', { type: () => Int }) userId: number,

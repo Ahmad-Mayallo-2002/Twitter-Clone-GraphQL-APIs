@@ -70,7 +70,7 @@ export class ReplyService {
     });
     if (!reply) throw new NotFoundException('This reply is not Found!');
     await this.replyRepo.delete({ id: replyId });
-    return 'Reply is Deleted';
+    return true;
   }
 
   async updateReply(replyId: number, userId: number, input: UpdateReplyInput) {
@@ -79,7 +79,7 @@ export class ReplyService {
     });
     if (!reply) throw new NotFoundException('This Reply is not Found!');
     await this.replyRepo.update(reply, input);
-    return 'Reply is Updated';
+    return true;
   }
 
   async createReply(tweetId: number, userId: number, input: CreateReplyInput) {

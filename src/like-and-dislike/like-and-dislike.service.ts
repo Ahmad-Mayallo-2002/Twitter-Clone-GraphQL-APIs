@@ -29,7 +29,10 @@ export class LikeAndDislikeService {
     const dislike = await this.dislikeRepo.findOneBy({ user: { id: userId } });
 
     if (dislike) await this.dislikeRepo.delete(dislike.id);
-    if (like) return await this.likeRepo.delete(like.id);
+    if (like) {
+      await this.likeRepo.delete(like.id);
+      return true;
+    }
 
     const newLike = this.likeRepo.create({
       user: { id: userId },
@@ -46,14 +49,17 @@ export class LikeAndDislikeService {
     const dislike = await this.dislikeRepo.findOneBy({ user: { id: userId } });
 
     if (dislike) await this.dislikeRepo.delete(dislike.id);
-    if (like) return await this.likeRepo.delete(like.id);
+    if (like) {
+      await this.likeRepo.delete(like.id);
+      return true;
+    }
 
     const newDislike = this.dislikeRepo.create({
       user: { id: userId },
       tweet: { id: tweet?.id },
     });
-
-    return await this.likeRepo.save(newDislike);
+    await this.likeRepo.save(newDislike);
+    return true;
   }
 
   async getLikeTweetCount(tweetId: number) {

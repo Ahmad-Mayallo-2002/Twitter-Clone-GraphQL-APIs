@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserInput } from 'src/user/dto/create-user.input';
-import { hash } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
+import { LoginInput } from './dto/create-auth.input';
 
 @Injectable()
 export class AuthService {
@@ -18,4 +19,16 @@ export class AuthService {
     });
     return await this.userRepo.save(newUser);
   }
+
+  async validateUser(input: LoginInput) {
+    const user = await this.userRepo.findOneBy({ email: input.email });
+    if (!user) throw new UnauthorizedException('Invalid Email!');
+
+    const comparePassword = await compare(input.password, user.password);
+    if (!comparePassword) throw new UnauthorizedException('Invalid Password!');
+  }
+
+  async generateToken() {}
+
+  async login(input: LoginInput) {}
 }
