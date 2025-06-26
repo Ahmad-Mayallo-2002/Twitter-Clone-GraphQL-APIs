@@ -76,7 +76,7 @@ export class TweetService {
       user,
     });
     if (!updatedTweet) return new NotFoundException('Tweet is not Found!');
-    return { ...updatedTweet };
+    return true;
   }
 
   async remove(id: number, userId: number) {

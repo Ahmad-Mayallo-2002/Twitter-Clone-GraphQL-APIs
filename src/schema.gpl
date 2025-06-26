@@ -45,8 +45,8 @@ type Mutation {
   deleteUser(id: Int!): Boolean!
   signUp(input: CreateUserInput!): User!
   updateReply(input: UpdateReplyInput!, replyId: Int!, userId: Int!): Boolean!
-  updateTweet(input: UpdateTweetInput!, tweetId: Int!, userId: Int!): Tweet!
-  updateUser(input: UpdateUserInput!, userId: Int!): User!
+  updateTweet(input: UpdateTweetInput!, tweetId: Int!, userId: Int!): Boolean!
+  updateUser(input: UpdateUserInput!, userId: Int!): Boolean!
 }
 
 type Query {

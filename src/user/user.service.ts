@@ -25,7 +25,7 @@ export class UserService {
       id,
     });
     if (!user) return new NotFoundException('This User is not Found!');
-    return user;
+    return true;
   }
 
   async remove(id: number) {

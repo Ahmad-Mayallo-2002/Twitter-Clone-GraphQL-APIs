@@ -17,7 +17,7 @@ export class UserResolver {
     return this.userService.findOne(id);
   }
 
-  @Mutation(() => User, { name: 'updateUser' })
+  @Mutation(() => Boolean, { name: 'updateUser' })
   async updateUser(
     @Args('input') input: UpdateUserInput,
     @Args('userId', { type: () => Int }) userId: number,

@@ -31,7 +31,7 @@ export class TweetResolver {
     return this.tweetService.findOne(id);
   }
 
-  @Mutation(() => Tweet, { name: 'updateTweet' })
+  @Mutation(() => Boolean, { name: 'updateTweet' })
   updateTweet(
     @Args('input') input: UpdateTweetInput,
     @Args('userId', { type: () => Int }) userId: number,
