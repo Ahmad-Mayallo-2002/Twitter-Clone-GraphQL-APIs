@@ -29,7 +29,7 @@ export class LikeAndDislikeResolver {
     return await this.likeAndDislikeService.addLike(userId, tweetId);
   }
 
-  @Mutation(() => Dislike, { name: 'addLike' })
+  @Mutation(() => Dislike, { name: 'addDislike' })
   async addDislike(
     @Args('tweetId', { type: () => Int }) tweetId: number,
     @Args('userId', { type: () => Int }) userId: number,

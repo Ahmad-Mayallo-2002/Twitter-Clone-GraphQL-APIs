@@ -16,18 +16,14 @@ export class LikeAndDislikeService {
     @InjectRepository(Tweet) private readonly tweetRepo: Repository<User>,
   ) {}
 
-  private async getUserAndTweet(userId: number, tweetId: number) {
-    const user = await this.userRepo.findOneBy({ id: userId });
-    if (!user) throw new NotFoundException('User is not Found!');
-
+  private async getTweet(tweetId: number) {
     const tweet = await this.tweetRepo.findOneBy({ id: tweetId });
     if (!tweet) throw new NotFoundException('Tweet is not Found!');
-
-    return { user, tweet };
+    return tweet;
   }
 
   async addLike(userId: number, tweetId: number) {
-    const { user, tweet } = await this.getUserAndTweet(userId, tweetId);
+    const tweet = await this.getTweet(tweetId);
 
     const like = await this.likeRepo.findOneBy({ user: { id: userId } });
     const dislike = await this.dislikeRepo.findOneBy({ user: { id: userId } });
@@ -36,7 +32,7 @@ export class LikeAndDislikeService {
     if (like) return await this.likeRepo.delete(like.id);
 
     const newLike = this.likeRepo.create({
-      user: { id: user?.id },
+      user: { id: userId },
       tweet: { id: tweet?.id },
     });
 
@@ -44,7 +40,7 @@ export class LikeAndDislikeService {
   }
 
   async addDislike(userId: number, tweetId: number) {
-    const { user, tweet } = await this.getUserAndTweet(userId, tweetId);
+    const tweet = await this.getTweet(tweetId);
 
     const like = await this.likeRepo.findOneBy({ user: { id: userId } });
     const dislike = await this.dislikeRepo.findOneBy({ user: { id: userId } });
@@ -53,7 +49,7 @@ export class LikeAndDislikeService {
     if (like) return await this.likeRepo.delete(like.id);
 
     const newDislike = this.dislikeRepo.create({
-      user: { id: user?.id },
+      user: { id: userId },
       tweet: { id: tweet?.id },
     });
 

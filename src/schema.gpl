@@ -44,7 +44,8 @@ type Like {
 }
 
 type Mutation {
-  addLike(tweetId: Int!, userId: Int!): Dislike!
+  addDislike(tweetId: Int!, userId: Int!): Dislike!
+  addLike(tweetId: Int!, userId: Int!): Like!
   createReply(input: CreateReplyInput!, tweetId: Int!, userId: Int!): Reply!
   createTweet(input: CreateTweetInput!, userId: Int!): Tweet!
   deleteReply(replyId: Int!, userId: Int!): Reply!
