@@ -1,0 +1,136 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateReplyInput {
+  content: String! = ""
+  media: [String!]! = []
+}
+
+input CreateTweetInput {
+  content: String! = ""
+  media: [String!]! = []
+}
+
+input CreateUserInput {
+  bio: String = "Hello, World!"
+  email: String!
+  image: String = "image.png"
+  name: String!
+  password: String!
+  role: Role! = USER
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Dislike {
+  created_at: DateTime!
+  id: Int!
+  tweet: Tweet!
+  updated_at: DateTime!
+  user: User!
+}
+
+type Like {
+  created_at: DateTime!
+  id: Int!
+  tweet: Tweet!
+  updated_at: DateTime!
+  user: User!
+}
+
+type Mutation {
+  addLike(tweetId: Int!, userId: Int!): Dislike!
+  createReply(input: CreateReplyInput!, tweetId: Int!, userId: Int!): Reply!
+  createTweet(input: CreateTweetInput!, userId: Int!): Tweet!
+  deleteReply(replyId: Int!, userId: Int!): Reply!
+  deleteTweet(id: Int!, userId: Int!): Tweet!
+  deleteUser(id: Int!): User!
+  signUp(input: CreateUserInput!): User!
+  updateReply(input: UpdateReplyInput!, replyId: Int!, userId: Int!): Reply!
+  updateTweet(input: UpdateTweetInput!, tweetId: Int!, userId: Int!): Tweet!
+  updateUser(input: UpdateUserInput!, userId: Int!): User!
+}
+
+type Query {
+  getAllReplies: [Reply!]!
+  getSingleReply(replyId: Int!): Reply!
+  getTweet(id: Int!): Tweet!
+  getTweetLikesCount(tweetId: Int!): Float!
+  getTweetReplies(tweetId: Int!): [Reply!]!
+  getTweetdislikesCount(tweetId: Int!): Float!
+  getTweets: [Tweet!]!
+  getUser(id: Int!): User!
+  getUserReplies(userId: Int!): [Reply!]!
+  getUserTweet(userId: Int!): [Tweet!]!
+  getUsers: [User!]!
+  hello: String!
+}
+
+type Reply {
+  content: String!
+  created_at: DateTime!
+  id: Int!
+  media: [String!]!
+  tweet: Tweet!
+  updated_at: DateTime!
+  user: User!
+}
+
+"""User role"""
+enum Role {
+  ADMIN
+  USER
+}
+
+type Tweet {
+  content: String!
+  created_at: DateTime!
+  dislikes: [Like!]!
+  id: Int!
+  likes: [Like!]!
+  media: [String!]!
+  replies: [Reply!]!
+  updated_at: DateTime!
+  user: User!
+}
+
+input UpdateReplyInput {
+  content: String = ""
+  media: [String!] = []
+}
+
+input UpdateTweetInput {
+  content: String = ""
+  media: [String!] = []
+}
+
+input UpdateUserInput {
+  bio: String = "Hello, World!"
+  email: String
+  image: String = "image.png"
+  name: String
+  password: String
+  role: Role = USER
+  username: String
+}
+
+type User {
+  bio: String!
+  created_at: DateTime!
+  dislikes: [Like!]!
+  email: String!
+  id: Int!
+  image: String!
+  likes: [Like!]!
+  name: String!
+  replies: [Reply!]!
+  role: Role!
+  tweets: [Tweet]
+  updated_at: DateTime!
+  username: String!
+}
