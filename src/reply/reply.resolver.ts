@@ -1,60 +1,70 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { ReplyService } from './reply.service';
-import { Reply } from './entities/reply.entity';
-import { CreateReplyInput } from './dto/create-reply.input';
-import { UpdateReplyInput } from './dto/update-reply.input';
+import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
+import { ReplyService } from "./reply.service";
+import { Reply } from "./entities/reply.entity";
+import { CreateReplyInput } from "./dto/create-reply.input";
+import { UpdateReplyInput } from "./dto/update-reply.input";
+import { GqlAuthGuard } from "src/auth/guards/auth.guard";
+import { UseGuards } from "@nestjs/common";
 
 @Resolver(() => Reply)
 export class ReplyResolver {
   constructor(private readonly replyService: ReplyService) {}
 
-  @Query(() => String, { name: 'hello' })
+  @UseGuards(GqlAuthGuard)
+  @Query(() => String, { name: "hello" })
   async hello() {
-    return 'Hello, World!';
+    return "Hello, World!";
   }
 
-  @Query(() => [Reply], { name: 'getUserReplies' })
-  async getUserReplies(@Args('userId', { type: () => Int }) userId: number) {
+  @UseGuards(GqlAuthGuard)
+  @Query(() => [Reply], { name: "getUserReplies" })
+  async getUserReplies(@Args("userId", { type: () => Int }) userId: number) {
     return await this.replyService.getUserReplies(userId);
   }
 
-  @Query(() => Reply, { name: 'getSingleReply' })
-  async getSingleReply(@Args('replyId', { type: () => Int }) replyId: number) {
+  @UseGuards(GqlAuthGuard)
+  @Query(() => Reply, { name: "getSingleReply" })
+  async getSingleReply(@Args("replyId", { type: () => Int }) replyId: number) {
     return await this.replyService.getSingleReply(replyId);
   }
 
-  @Query(() => [Reply], { name: 'getAllReplies' })
+  @UseGuards(GqlAuthGuard)
+  @Query(() => [Reply], { name: "getAllReplies" })
   async getAllReplies() {
     return await this.replyService.getAllReplies();
   }
 
-  @Query(() => [Reply], { name: 'getTweetReplies' })
-  async getTweetRelies(@Args('tweetId', { type: () => Int }) tweetId: number) {
+  @UseGuards(GqlAuthGuard)
+  @Query(() => [Reply], { name: "getTweetReplies" })
+  async getTweetRelies(@Args("tweetId", { type: () => Int }) tweetId: number) {
     return await this.replyService.getTweetReplies(tweetId);
   }
 
-  @Mutation(() => Boolean, { name: 'deleteReply' })
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Boolean, { name: "deleteReply" })
   async deleteReply(
-    @Args('replyId', { type: () => Int }) replyId: number,
-    @Args('userId', { type: () => Int }) userId: number,
+    @Args("replyId", { type: () => Int }) replyId: number,
+    @Args("userId", { type: () => Int }) userId: number
   ) {
     return await this.replyService.deleteReply(replyId, userId);
   }
 
-  @Mutation(() => Boolean, { name: 'updateReply' })
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Boolean, { name: "updateReply" })
   async updateReply(
-    @Args('input') input: UpdateReplyInput,
-    @Args('replyId', { type: () => Int }) replyId: number,
-    @Args('userId', { type: () => Int }) userId: number,
+    @Args("input") input: UpdateReplyInput,
+    @Args("replyId", { type: () => Int }) replyId: number,
+    @Args("userId", { type: () => Int }) userId: number
   ) {
     return await this.replyService.updateReply(replyId, userId, input);
   }
 
-  @Mutation(() => Reply, { name: 'createReply' })
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Reply, { name: "createReply" })
   async createReply(
-    @Args('tweetId', { type: () => Int }) tweetId: number,
-    @Args('userId', { type: () => Int }) userId: number,
-    @Args('input') input: CreateReplyInput,
+    @Args("tweetId", { type: () => Int }) tweetId: number,
+    @Args("userId", { type: () => Int }) userId: number,
+    @Args("input") input: CreateReplyInput
   ) {
     return await this.replyService.createReply(tweetId, userId, input);
   }

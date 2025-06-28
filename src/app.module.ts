@@ -1,27 +1,27 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { GraphQLModule } from '@nestjs/graphql';
-import { UserModule } from './user/user.module';
-import { TweetModule } from './tweet/tweet.module';
-import { ReplyModule } from './reply/reply.module';
-import { User } from './user/entities/user.entity';
-import { Tweet } from './tweet/entities/tweet.entity';
-import { Reply } from './reply/entities/reply.entity';
-import { Dislike } from './like-and-dislike/enitites/dislike.entity';
-import { Like } from './like-and-dislike/enitites/like.entity';
-import { AuthModule } from './auth/auth.module';
-import { LikeAndDislikeModule } from './like-and-dislike/like-and-dislike.module';
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { ConfigModule } from "@nestjs/config";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { GraphQLModule } from "@nestjs/graphql";
+import { UserModule } from "./user/user.module";
+import { TweetModule } from "./tweet/tweet.module";
+import { ReplyModule } from "./reply/reply.module";
+import { User } from "./user/entities/user.entity";
+import { Tweet } from "./tweet/entities/tweet.entity";
+import { Reply } from "./reply/entities/reply.entity";
+import { Dislike } from "./like-and-dislike/enitites/dislike.entity";
+import { Like } from "./like-and-dislike/enitites/like.entity";
+import { AuthModule } from "./auth/auth.module";
+import { LikeAndDislikeModule } from "./like-and-dislike/like-and-dislike.module";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: ".env" }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
+      type: "postgres",
+      host: "localhost",
       username: process.env.DB_USER,
       database: process.env.DB_NAME,
       password: process.env.DB_PASS,
@@ -32,9 +32,11 @@ import { LikeAndDislikeModule } from './like-and-dislike/like-and-dislike.module
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: 'src/schema.gpl',
+      autoSchemaFile: "src/schema.gpl",
       sortSchema: true,
       playground: true,
+      introspection: false,
+      context: ({ req, res }) => ({ req, res }),
     }),
     UserModule,
     TweetModule,
