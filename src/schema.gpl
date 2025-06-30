@@ -38,12 +38,15 @@ type Like {
 type Mutation {
   addDislike(tweetId: Int!, userId: Int!): Boolean!
   addLike(tweetId: Int!, userId: Int!): Boolean!
+  compareCode(currentCode: String!, userCode: String!): Boolean!
   createReply(input: CreateReplyInput!, tweetId: Int!, userId: Int!): Reply!
   createTweet(input: CreateTweetInput!, userId: Int!): Tweet!
   deleteReply(replyId: Int!, userId: Int!): Boolean!
   deleteTweet(id: Int!, userId: Int!): Boolean!
   deleteUser(id: Int!): Boolean!
+  getUserAndSendCode(input: UserSendMail!): String!
   signUp(input: CreateUserInput!): User!
+  updatePassword(confirmPassword: String!, email: String!, newPassword: String!): Boolean!
   updateReply(input: UpdateReplyInput!, replyId: Int!, userId: Int!): Boolean!
   updateTweet(input: UpdateTweetInput!, tweetId: Int!, userId: Int!): Boolean!
   updateUser(input: UpdateUserInput!, userId: Int!): Boolean!
@@ -61,7 +64,7 @@ type Query {
   getUserReplies(userId: Int!): [Reply!]!
   getUserTweet(userId: Int!): [Tweet!]!
   getUsers: [User!]!
-  hello: String!
+  hello(email: String!): String!
 }
 
 type Reply {
@@ -126,4 +129,8 @@ type User {
   tweets: [Tweet]
   updated_at: DateTime!
   username: String!
+}
+
+input UserSendMail {
+  email: String!
 }

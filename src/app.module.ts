@@ -15,6 +15,7 @@ import { Dislike } from './like-and-dislike/enitites/dislike.entity';
 import { Like } from './like-and-dislike/enitites/like.entity';
 import { AuthModule } from './auth/auth.module';
 import { LikeAndDislikeModule } from './like-and-dislike/like-and-dislike.module';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
@@ -41,8 +42,19 @@ import { LikeAndDislikeModule } from './like-and-dislike/like-and-dislike.module
     ReplyModule,
     AuthModule,
     LikeAndDislikeModule,
+    // BullModule.forRoot({
+    //   connection: {
+    //     host: 'localhost',
+    //     port: 6379,
+    //   },
+    //   defaultJobOptions: {
+    //     attempts: 3,
+    //   },
+    // }),
+    // BullModule.registerQueue({ name: 'products' }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+// redis://default@127.0.0.1:6379
