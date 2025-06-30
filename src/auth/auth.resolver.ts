@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { User } from 'src/user/entities/user.entity';
 import { CreateUserInput } from 'src/user/dto/create-user.input';
 import { UserSendMail } from './dto/send-mail.input';
+import { LoginInput } from './dto/create-auth.input';
+import { JwtAuth } from './entities/auth.input';
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -38,5 +40,12 @@ export class AuthResolver {
     @Args("email") email: string,
   ) {
     return await this.authService.updatePassword(newPassword, confirmNewPassowrd, email);
+  }
+
+  @Mutation(() => JwtAuth, {name: "login"})
+  async login(
+    @Args("input") input: LoginInput
+  ) {
+    return await this.authService.login(input);
   }
 }

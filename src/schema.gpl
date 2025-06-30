@@ -27,12 +27,23 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type JwtAuth {
+  id: Int!
+  role: Role!
+  token: String!
+}
+
 type Like {
   created_at: DateTime!
   id: Int!
   tweet: Tweet!
   updated_at: DateTime!
   user: User!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 type Mutation {
@@ -45,11 +56,12 @@ type Mutation {
   deleteTweet(id: Int!, userId: Int!): Boolean!
   deleteUser(id: Int!): Boolean!
   getUserAndSendCode(input: UserSendMail!): String!
+  login(input: LoginInput!): JwtAuth!
   signUp(input: CreateUserInput!): User!
   updatePassword(confirmPassword: String!, email: String!, newPassword: String!): Boolean!
   updateReply(input: UpdateReplyInput!, replyId: Int!, userId: Int!): Boolean!
   updateTweet(input: UpdateTweetInput!, tweetId: Int!, userId: Int!): Boolean!
-  updateUser(input: UpdateUserInput!, userId: Int!): Boolean!
+  updateUser(input: UpdateUserInput!): Boolean!
 }
 
 type Query {

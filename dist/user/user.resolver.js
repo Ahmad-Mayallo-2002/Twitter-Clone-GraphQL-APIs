@@ -19,7 +19,7 @@ const user_entity_1 = require("./entities/user.entity");
 const update_user_input_1 = require("./dto/update-user.input");
 const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../auth/guards/auth.guard");
-const console_1 = require("console");
+const current_user_decorator_1 = require("../auth/decorators/current-user.decorator");
 let UserResolver = class UserResolver {
     userService;
     constructor(userService) {
@@ -31,12 +31,10 @@ let UserResolver = class UserResolver {
     async findOne(id) {
         return this.userService.findOne(id);
     }
-    async updateUser(input, userId) {
-        return this.userService.update(userId, input);
+    async updateUser(input, user) {
+        return this.userService.update(user.id, input);
     }
     async removeUser(id) {
-        const x = 5;
-        (0, console_1.log)(x);
         return this.userService.remove(id);
     }
 };
@@ -60,9 +58,9 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.GqlAuthGuard),
     (0, graphql_1.Mutation)(() => Boolean, { name: 'updateUser' }),
     __param(0, (0, graphql_1.Args)('input')),
-    __param(1, (0, graphql_1.Args)('userId', { type: () => graphql_1.Int })),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_user_input_1.UpdateUserInput, Number]),
+    __metadata("design:paramtypes", [update_user_input_1.UpdateUserInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "updateUser", null);
 __decorate([

@@ -5,6 +5,8 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guards/auth.guard';
 import { log } from 'console';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { JwtType } from 'src/auth/types/jwtType';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -26,16 +28,14 @@ export class UserResolver {
   @Mutation(() => Boolean, { name: 'updateUser' })
   async updateUser(
     @Args('input') input: UpdateUserInput,
-    @Args('userId', { type: () => Int }) userId: number,
+    @CurrentUser() user: JwtType,
   ) {
-    return this.userService.update(userId, input);
+    return this.userService.update(user.id, input);
   }
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Boolean, { name: 'deleteUser' })
   async removeUser(@Args('id', { type: () => Int }) id: number) {
-    const x = 5;
-    log(x);
     return this.userService.remove(id);
   }
 }

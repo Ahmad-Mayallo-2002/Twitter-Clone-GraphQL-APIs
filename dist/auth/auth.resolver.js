@@ -18,6 +18,8 @@ const auth_service_1 = require("./auth.service");
 const user_entity_1 = require("../user/entities/user.entity");
 const create_user_input_1 = require("../user/dto/create-user.input");
 const send_mail_input_1 = require("./dto/send-mail.input");
+const create_auth_input_1 = require("./dto/create-auth.input");
+const auth_input_1 = require("./entities/auth.input");
 let AuthResolver = class AuthResolver {
     authService;
     constructor(authService) {
@@ -37,6 +39,9 @@ let AuthResolver = class AuthResolver {
     }
     async updatePassword(newPassword, confirmNewPassowrd, email) {
         return await this.authService.updatePassword(newPassword, confirmNewPassowrd, email);
+    }
+    async login(input) {
+        return await this.authService.login(input);
     }
 };
 exports.AuthResolver = AuthResolver;
@@ -78,6 +83,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "updatePassword", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => auth_input_1.JwtAuth, { name: "login" }),
+    __param(0, (0, graphql_1.Args)("input")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_auth_input_1.LoginInput]),
+    __metadata("design:returntype", Promise)
+], AuthResolver.prototype, "login", null);
 exports.AuthResolver = AuthResolver = __decorate([
     (0, graphql_1.Resolver)(() => user_entity_1.User),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
