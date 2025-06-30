@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthResolver = void 0;
+exports.AuthResolver = exports.UploadScalar = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const auth_service_1 = require("./auth.service");
 const user_entity_1 = require("../user/entities/user.entity");
@@ -20,6 +20,12 @@ const create_user_input_1 = require("../user/dto/create-user.input");
 const send_mail_input_1 = require("./dto/send-mail.input");
 const create_auth_input_1 = require("./dto/create-auth.input");
 const auth_input_1 = require("./entities/auth.input");
+const graphql_upload_ts_1 = require("graphql-upload-ts");
+const path_1 = require("path");
+const fs_1 = require("fs");
+class UploadScalar {
+}
+exports.UploadScalar = UploadScalar;
 let AuthResolver = class AuthResolver {
     authService;
     constructor(authService) {
@@ -39,6 +45,20 @@ let AuthResolver = class AuthResolver {
     }
     async updatePassword(newPassword, confirmNewPassowrd, email) {
         return await this.authService.updatePassword(newPassword, confirmNewPassowrd, email);
+    }
+    async testFile(file) {
+        const { filename, createReadStream } = file;
+        const uploadPath = (0, path_1.join)(process.cwd(), 'uploads', Date.now() + filename);
+        return new Promise((resolve, reject) => {
+            const stream = createReadStream();
+            const writeStream = (0, fs_1.createWriteStream)(uploadPath);
+            stream
+                .pipe(writeStream)
+                .on('finish', () => {
+                return resolve(`/uploads/${Date.now() + filename}`);
+            })
+                .on('error', (err) => reject(err));
+        });
     }
     async login(input) {
         return await this.authService.login(input);
@@ -76,16 +96,23 @@ __decorate([
 ], AuthResolver.prototype, "compareCode", null);
 __decorate([
     (0, graphql_1.Mutation)(() => Boolean, { name: 'updatePassword' }),
-    __param(0, (0, graphql_1.Args)("newPassword")),
-    __param(1, (0, graphql_1.Args)("confirmPassword")),
-    __param(2, (0, graphql_1.Args)("email")),
+    __param(0, (0, graphql_1.Args)('newPassword')),
+    __param(1, (0, graphql_1.Args)('confirmPassword')),
+    __param(2, (0, graphql_1.Args)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "updatePassword", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => auth_input_1.JwtAuth, { name: "login" }),
-    __param(0, (0, graphql_1.Args)("input")),
+    (0, graphql_1.Mutation)(() => String, { name: 'testFile' }),
+    __param(0, (0, graphql_1.Args)({ name: 'file', type: () => graphql_upload_ts_1.GraphQLUpload })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthResolver.prototype, "testFile", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => auth_input_1.JwtAuth, { name: 'login' }),
+    __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_auth_input_1.LoginInput]),
     __metadata("design:returntype", Promise)

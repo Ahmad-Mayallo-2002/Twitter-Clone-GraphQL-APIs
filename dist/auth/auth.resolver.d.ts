@@ -3,6 +3,9 @@ import { User } from 'src/user/entities/user.entity';
 import { CreateUserInput } from 'src/user/dto/create-user.input';
 import { UserSendMail } from './dto/send-mail.input';
 import { LoginInput } from './dto/create-auth.input';
+import { FileUpload } from 'graphql-upload-ts';
+export declare class UploadScalar {
+}
 export declare class AuthResolver {
     private readonly authService;
     constructor(authService: AuthService);
@@ -11,6 +14,7 @@ export declare class AuthResolver {
     getUserAndSendCode(input: UserSendMail): Promise<string>;
     compareCode(currentCode: string, userCode: string): Promise<boolean>;
     updatePassword(newPassword: string, confirmNewPassowrd: string, email: string): Promise<boolean>;
+    testFile(file: FileUpload): Promise<unknown>;
     login(input: LoginInput): Promise<{
         token: string;
         role: import("../assets/role.enum").Role;

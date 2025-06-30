@@ -58,6 +58,7 @@ type Mutation {
   getUserAndSendCode(input: UserSendMail!): String!
   login(input: LoginInput!): JwtAuth!
   signUp(input: CreateUserInput!): User!
+  testFile(file: Upload!): String!
   updatePassword(confirmPassword: String!, email: String!, newPassword: String!): Boolean!
   updateReply(input: UpdateReplyInput!, replyId: Int!, userId: Int!): Boolean!
   updateTweet(input: UpdateTweetInput!, tweetId: Int!, userId: Int!): Boolean!
@@ -126,6 +127,9 @@ input UpdateUserInput {
   role: Role = USER
   username: String
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type User {
   bio: String!

@@ -20,7 +20,7 @@ let AuthModule = class AuthModule {
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
-        providers: [auth_resolver_1.AuthResolver, auth_service_1.AuthService, auth_strategy_1.JwtStrategy],
+        providers: [auth_resolver_1.AuthResolver, auth_service_1.AuthService, auth_strategy_1.JwtStrategy, auth_resolver_1.UploadScalar],
         imports: [
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
             jwt_1.JwtModule.registerAsync({
